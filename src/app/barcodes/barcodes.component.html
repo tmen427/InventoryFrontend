@@ -1,0 +1,33 @@
+
+<div class="main-content" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="header">
+                        <h4 class="title">Make New Barcodes</h4>
+                    </div>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button (click)="ShowTheImages()" class="btn btn-info btn-fill pull-left">Make New Barcode</button>
+                                    <button (click)="PrintThisPage()" class="btn btn-info btn-fill pull-left">Print</button>
+                                </div>
+                              
+                            </div>
+
+                            <div class="row">
+                         
+                              <div class="col-md-12" *ngIf=showImages> 
+                                 <img id="img1"  [src]="route" >
+                                 <h3>The file name path is : {{route}}</h3>
+                               </div>
+                            </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+

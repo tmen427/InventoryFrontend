@@ -1,0 +1,109 @@
+
+
+
+<div class="main-content">
+    <div class="container-fluid">
+   
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+                     Departments
+                    <b class="caret"></b>
+                
+            </a>
+            <ul class="dropdown-menu" >
+                <li *ngFor="let x of Departmentnames" (click)="getDepartmentIds(x)"><a href='/#/itemtabs'>{{x}}</a></li>
+               
+            </ul>
+        
+        </li>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card" *ngIf="keys">
+                    <div class="header">
+                        <h4 class="title">Items</h4>
+                        <p class="category">getting from backend: {{url}}</p>
+                    </div>
+                    <div class="content table-responsive table-full-width" >
+                          <table class="table table-hover table-striped">
+                                <thead>
+                                    <tr>
+                                        <th *ngFor="let cell of tableData.headerRow">{{ cell }}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let row of tableData.dataRows">
+                                        <td *ngFor="let cell of row">{{cell}}</td>
+                                    </tr>
+                                </tbody>
+                          </table>
+
+
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+
+     
+  
+
+
+
+
+
+
+
+
+
+
+<li class="dropdown">
+    <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+
+            Events
+            <b class="caret"></b>
+        
+    </a>
+    <ul class="dropdown-menu" >
+        <li *ngFor="let x of DisplayName" (click)="getEvents(this.ClickedDepartmentResponse[0],x)"><a href='/#/itemtabs'>{{x}}</a></li>
+       
+    </ul>
+
+</li>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="card" *ngIf="keys1">
+            <div class="header">
+                <h4 class="title">Events</h4>
+                <p class="category"></p>
+            </div>
+            <div class="content table-responsive table-full-width" *ngIf="rowsArray1">
+                  <table class="table table-hover table-striped">
+                        <thead>
+                            <tr>
+                                <th *ngFor="let cell of keys1">{{ cell }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr *ngFor="let row of rowsArray1">
+                                <td *ngFor="let cell of row">{{cell | json}}</td>
+                            </tr>
+                        
+                        </tbody>
+                  </table>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</div>
+</div>        

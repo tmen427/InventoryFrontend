@@ -1,0 +1,33 @@
+
+<div class="container-fluid">
+<ul class="nav nav-tabs">
+  <li class="nav-item">
+      <a class="nav-link" (click)="showDiv(2)">All-Items</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" (click)="showDiv(3)">Search</a>
+      </li>
+
+
+
+    <li class="nav-item">
+      <a class="nav-link" (click)="showDiv(1)">Barcode</a>
+      </li>
+    
+    <li class="nav-item">
+      <a class="nav-link" (click)="showDiv(1)">Transactions</a>
+      </li>
+
+    </ul>
+  
+    <div *ngIf="hidemain"><app-item></app-item></div>
+</div>
+
+
+
+
+
+
+<div *ngIf="showBarcode"><app-barcodes></app-barcodes></div>
+<div *ngIf="showTable"><app-item></app-item></div> 
+<div *ngIf="showSearch"><app-items-search></app-items-search></div>
