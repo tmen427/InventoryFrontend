@@ -60,13 +60,16 @@ getDepartmentNames() {
 
 }
 
+clickingResponse: string; 
 //function is also called on the frontend also
 getDepartmentIds(departmentName: string)  {
   let departmentroute = "https://localhost:7241/api/Departments"; 
        
   this.Http.get<DepartmentObject>(departmentroute).subscribe((response: DepartmentObject)=> {      
-        this.ClickedDepartmentResponse = response.departments.filter(x=>x.displayName==departmentName).map(x=>x.id); 
+        this.ClickedDepartmentResponse= response.departments.filter(x=>x.displayName==departmentName).map(x=>x.id); 
+        console.log("the clicked response")
         console.log(this.ClickedDepartmentResponse[0])
+    //    this.clickingResponse = clickedresponse[0];  
         this.GetDepartmentItems(this.ClickedDepartmentResponse[0]);
       }) 
     }; 
@@ -94,10 +97,13 @@ GetDepartmentItems(DepartmentId: string): void {
 }
 
 //function is called on the front end
-getEvents(Departmentreponse: string, ItemDisplayName: string) {   
-
-
+preparingEvents(ItemDisplayName: string) {   
+      
+   
+      //making sure the frontend table is clear
       this.rowsArray1 = [];
+         //use whichever item you picked from the drop down menu
+         let Departmentreponse = this.ClickedDepartmentResponse[0];
       //displayItemNames on the frontend for that specific deparment
       let url1= `https://localhost:7241/api/Departments/${Departmentreponse}/itemquantities`
       
@@ -106,13 +112,13 @@ getEvents(Departmentreponse: string, ItemDisplayName: string) {
         let departmentId = response.items.filter(x=>x.displayName==ItemDisplayName).map(x=>x.departmentId)
         let itemId = response.items.filter(x=>x.displayName==ItemDisplayName).map(x=>x.itemId)
        
-        this.GetAllItemsEvents(departmentId[0], itemId[0]);
+        this.getAllItemsEvents(departmentId[0], itemId[0]);
      
    })
 
 }
 
-GetAllItemsEvents( departmentId: string,  itemId:string): void {
+getAllItemsEvents( departmentId: string,  itemId:string): void {
   let url = `https://localhost:7241/api/Departments/${departmentId}/Items/${itemId}/events`; 
   console.log(url);
   this.Http.get<any>(url).subscribe((response)=> {
@@ -124,6 +130,7 @@ GetAllItemsEvents( departmentId: string,  itemId:string): void {
 
 keys1: string[] = []; 
 metaData : any[] = [];
+
 DisplayEvents(Events: any[]) {
   this.keys1 = Object.keys(Events[0]);
  

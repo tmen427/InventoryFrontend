@@ -65,7 +65,7 @@
         
     </a>
     <ul class="dropdown-menu" >
-        <li *ngFor="let x of DisplayName" (click)="getEvents(this.ClickedDepartmentResponse[0],x)"><a href='/#/itemtabs'>{{x}}</a></li>
+        <li *ngFor="let x of DisplayName" (click)="preparingEvents(x)"><a href='/#/itemtabs'>{{x | nullWithDefault}}</a></li>
        
     </ul>
 

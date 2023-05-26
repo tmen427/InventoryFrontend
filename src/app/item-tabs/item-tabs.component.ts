@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { TabsetComponent } from 'ngx-tabset';
+//import { TabsetComponent } from 'ngx-tabset';
 
 @Component({
   selector: 'app-item-tabs',

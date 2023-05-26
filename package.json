@@ -37,8 +37,7 @@
     "googleapis": "66.0.0",
     "guid-typescript": "^1.0.9",
     "jquery": "3.5.1",
-    "ngx-bootstrap": "^10.2.0",
-    "ngx-tabset": "^2.2.0",
+ 
     "perfect-scrollbar": "1.5.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",

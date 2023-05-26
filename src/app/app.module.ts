@@ -18,6 +18,7 @@ import { ItemsPostingComponent } from './items-posting/items-posting.component';
 import { ItemTabsComponent } from './item-tabs/item-tabs.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { ItemsSearchComponent } from './items-search/items-search.component';
+import { NullWithDefaultPipe } from './null-with-default.pipe';
 
 
 
@@ -43,7 +44,8 @@ import { ItemsSearchComponent } from './items-search/items-search.component';
     BarcodesComponent,
     ItemsPostingComponent,
     ItemTabsComponent,
-    ItemsSearchComponent, 
+    ItemsSearchComponent,
+    NullWithDefaultPipe, 
 
   ],
   providers: [],
