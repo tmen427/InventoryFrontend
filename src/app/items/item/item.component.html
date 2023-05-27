@@ -3,7 +3,7 @@
 
 <div class="main-content">
     <div class="container-fluid">
-   
+
         <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">
 
@@ -11,7 +11,9 @@
                     <b class="caret"></b>
                 
             </a>
+        
             <ul class="dropdown-menu" >
+        
                 <li *ngFor="let x of Departmentnames" (click)="getDepartmentIds(x)"><a href='/#/itemtabs'>{{x}}</a></li>
                
             </ul>
@@ -28,13 +30,18 @@
                           <table class="table table-hover table-striped">
                                 <thead>
                                     <tr>
-                                        <th *ngFor="let cell of tableData.headerRow">{{ cell }}</th>
+                                        <th *ngFor="let cell of keys">{{ cell }}</th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                        
                                     <tr *ngFor="let row of tableData.dataRows">
-                                        <td *ngFor="let cell of row">{{cell}}</td>
+
+
+                                        <td *ngFor="let cell of row">{{cell | nullWithDefault}}</td>
                                     </tr>
+                                                <div>{{ date  | date }}</div>
+                                                 
                                 </tbody>
                           </table>
 
@@ -65,7 +72,7 @@
         
     </a>
     <ul class="dropdown-menu" >
-        <li *ngFor="let x of DisplayName" (click)="preparingEvents(x)"><a href='/#/itemtabs'>{{x | nullWithDefault}}</a></li>
+        <li *ngFor="let x of DisplayName" (click)="preparingEvents(x)"><a href='/#/itemtabs'>{{x }}</a></li>
        
     </ul>
 
@@ -89,8 +96,10 @@
                         <tbody>
                             
                             <tr *ngFor="let row of rowsArray1">
-                                <td *ngFor="let cell of row">{{cell | json}}</td>
+                                <td *ngFor="let x of row">{{x | json}}</td>
+                            
                             </tr>
+                           
                         
                         </tbody>
                   </table>

@@ -34,8 +34,8 @@ export class ItemComponent implements OnInit {
 
  //these global variables are used on the frontend-(item.commponent.html)
  ClickedDepartmentResponse: any[] = [] 
- keys: string[] =[]; 
- rowsArray: string[] = []; 
+ keys: string[];  
+ rowsArray: string[] ; 
  rowsArray1:  any[] = []; 
  Departmentnames : string[]; 
  tableData: TableData; 
@@ -49,8 +49,6 @@ getDepartmentNames() {
    
    this.Http.get<DepartmentObject>(departmentroute).subscribe((response: DepartmentObject)=> {
     this.Departmentnames = response.departments.map(x=>x.displayName); 
-    console.log('the deparment names')
-    console.log(this.Departmentnames)
     let departments = this.Departmentnames[0];
 
     //whatever the frist name is place that into the next method
@@ -67,8 +65,8 @@ getDepartmentIds(departmentName: string)  {
        
   this.Http.get<DepartmentObject>(departmentroute).subscribe((response: DepartmentObject)=> {      
         this.ClickedDepartmentResponse= response.departments.filter(x=>x.displayName==departmentName).map(x=>x.id); 
-        console.log("the clicked response")
-        console.log(this.ClickedDepartmentResponse[0])
+      
+        console.log("the clicked response " + this.ClickedDepartmentResponse[0])
     //    this.clickingResponse = clickedresponse[0];  
         this.GetDepartmentItems(this.ClickedDepartmentResponse[0]);
       }) 
@@ -91,7 +89,7 @@ GetDepartmentItems(DepartmentId: string): void {
      //show all the item names for that deparment
      this.DisplayName = response.items.map(x=>x.displayName); 
 
-     console.log(this.DisplayName); 
+
      
  })
 }
@@ -134,26 +132,29 @@ metaData : any[] = [];
 DisplayEvents(Events: any[]) {
   this.keys1 = Object.keys(Events[0]);
  
-  let rows = [];
+  let rows; 
+  
+  rows =  Events.forEach(element => {
+      if (element.timestamp) {
+      
+        element.timestamp = new Date(element.timestamp).toLocaleString();  
+         console.log(element.timestamp)
+      }
+   });
 
+   
   rows = Events.map((x)=> {
          let rowItems = Object.values(x);
+      
         return rowItems; 
   });
      
       this.rowsArray1 = rows; 
-        
- if (rows===undefined || rows===null)  {
-        console.log("its undefined")
-        this.rowsArray1 = [];
-      }    
- /**      
-      let flatten = rows.flat()
-      let z = flatten.filter((x)=>typeof(x)==="object");
-      //get the quantity from the metadata....
-      this.metaData = z.map((x)=>x.quantity); 
-           
-*/
+      //flatten the array in the future? 
+        console.log(this.rowsArray1);
+ 
+      
+
   
   }
 
@@ -162,24 +163,34 @@ DisplayEvents(Events: any[]) {
 DisplayDepartments(departmentinfo: any[]): void {
     
         let Items = departmentinfo[0].items[0];
-  
-        let headers = Items;
-        this.keys = Object.keys(headers);
-                  
+         
+        this.keys = Object.keys(Items); 
      
+        // format the dates for the frontend 
+          departmentinfo[0].items.forEach(element => {
+            if (element.expiration) {
+                element.expiration =  new Date(element.expiration); 
+            } 
+            if (element.lastUsed) {
+                element.lastUsed = new Date(element.lastUsed);
+            }    
+            if (element.lastReceived)  {
+              element.lastReceived = new Date(element.lastReceived); 
+            }   
+          });
+
+
         let rows = departmentinfo[0].items.map(x => 
           {
-            if (Object.values(x)!==null) {
-            let RowsItem = Object.values(x); 
-            return RowsItem; 
-            }
+           
+          let rowdata =  Object.values(x); 
+          return rowdata; 
+    
           }); 
 
+  
         this.rowsArray = rows;      
              
-
-
-
          //set the tabledata interface 
       this.tableData = {
           headerRow: this.keys, 
@@ -187,10 +198,11 @@ DisplayDepartments(departmentinfo: any[]): void {
         }
   }
 
-
   
+
 ngOnInit(): void {
-        this.getDepartmentNames()
+      this.getDepartmentNames()
+      
   }
 
 }
