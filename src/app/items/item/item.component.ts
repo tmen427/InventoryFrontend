@@ -8,6 +8,16 @@ declare interface TableData{
   dataRows: string []; 
 }
 
+declare interface ItemKeys{
+displayName: string,
+lotNumber: string, 
+isCurrent: boolean, 
+expiration: string, 
+currentQuantity: string,
+lastUsed: string, 
+lastReceived: string
+}
+
 
 declare interface DepartmentObject {
   departments: Department[]
@@ -40,6 +50,7 @@ export class ItemComponent implements OnInit {
  Departmentnames : string[]; 
  tableData: TableData; 
 
+
  
 constructor(public Http: HttpClient) { }
 
@@ -67,7 +78,7 @@ getDepartmentIds(departmentName: string)  {
         this.ClickedDepartmentResponse= response.departments.filter(x=>x.displayName==departmentName).map(x=>x.id); 
       
         console.log("the clicked response " + this.ClickedDepartmentResponse[0])
-    //    this.clickingResponse = clickedresponse[0];  
+    
         this.GetDepartmentItems(this.ClickedDepartmentResponse[0]);
       }) 
     }; 
@@ -130,44 +141,89 @@ keys1: string[] = [];
 metaData : any[] = [];
 
 DisplayEvents(Events: any[]) {
-  this.keys1 = Object.keys(Events[0]);
- 
-  let rows; 
   
-  rows =  Events.forEach(element => {
-      if (element.timestamp) {
-      
-        element.timestamp = new Date(element.timestamp).toLocaleString();  
-         console.log(element.timestamp)
-      }
-   });
-
-   
-  rows = Events.map((x)=> {
-         let rowItems = Object.values(x);
-      
-        return rowItems; 
-  });
-     
-      this.rowsArray1 = rows; 
-      //flatten the array in the future? 
-        console.log(this.rowsArray1);
- 
-      
-
-  
+  var newKeys =  {
+    Type: "",
+    TimeStamp: "", 
+    Quantity: "",
+    Reason: "",
   }
+
+  this.keys1 = Object.keys(newKeys);
+ 
+
+   //filter throug all the events
+let rows = Events.map((x)=> {
+    var newKeys =  {
+    Type: x.type,
+    TimeStamp: x.timestamp, 
+    Quantity: x.metadata.quantity,
+    Reason: x.metadata.reason,
+  }
+    return newKeys; 
+  });
+  
+ // console.log(rows)
+  rows.forEach(element => {
+    if (element.TimeStamp) {
+        element.TimeStamp = new Date(element.TimeStamp).toLocaleString();  
+      }
+   if (element.Reason===undefined) {
+          element.Reason = "N/A"
+    }
+ });
+
+console.log(rows)
+ let newArray =  rows.map((x)=> {
+    let rowItems = Object.values(x);
+    return rowItems; 
+  })
+    
+    this.rowsArray1 = newArray; 
+  }
+
+
 
 
 //display departments on the frontend
 DisplayDepartments(departmentinfo: any[]): void {
     
-        let Items = departmentinfo[0].items[0];
-         
-        this.keys = Object.keys(Items); 
-     
-        // format the dates for the frontend 
-          departmentinfo[0].items.forEach(element => {
+    let itemKey = {
+      displayName: "",
+      lotNumber: "", 
+      isCurrent: false, 
+      expiration: "", 
+      currentQuantity: "",
+      lastUsed: "", 
+      lastReceived: ""
+       }
+   
+   let newKeys = Object.keys(itemKey)
+   this.keys =  newKeys;
+
+
+       let newArray =  departmentinfo[0].items.map((element)=>{
+            let x  = {
+              displayName: element.displayName,
+              lotNumber: element.lotNumber, 
+              isCurrent: element.isCurrent, 
+              expiration: element.expiration, 
+              currentQuantity: element.currentQuantity,
+              lastUsed: element.lastUsed, 
+              lastReceived: element.lastReceived
+               }
+               return x; 
+              }
+           )         
+    
+        // further formating for the frontend 
+          newArray.forEach(element => {
+            if (element.isCurrent ===true) {
+                element.isCurrent = "Yes"
+            } 
+            if (element.isCurrent ===false) {
+                element.isCurrent = "No"
+            }
             if (element.expiration) {
                 element.expiration =  new Date(element.expiration); 
             } 
@@ -180,7 +236,7 @@ DisplayDepartments(departmentinfo: any[]): void {
           });
 
 
-        let rows = departmentinfo[0].items.map(x => 
+        let rows = newArray.map(x => 
           {
            
           let rowdata =  Object.values(x); 

@@ -83,7 +83,7 @@
     <div class="col-md-12">
         <div class="card" *ngIf="keys1">
             <div class="header">
-                <h4 class="title">Events</h4>
+                <h4 class="title">Events History</h4>
                 <p class="category"></p>
             </div>
             <div class="content table-responsive table-full-width" *ngIf="rowsArray1">
@@ -96,7 +96,7 @@
                         <tbody>
                             
                             <tr *ngFor="let row of rowsArray1">
-                                <td *ngFor="let x of row">{{x | json}}</td>
+                                <td *ngFor="let x of row">{{x }}</td>
                             
                             </tr>
                            
